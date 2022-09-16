@@ -20,3 +20,4 @@ int main(void)
   printf("huidig: %i\n", huidig);
   printf("jaren: %i\n", jaren);
 }
+ 
