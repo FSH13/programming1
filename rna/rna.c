@@ -8,25 +8,30 @@
 
 int main (int rnac, string rnav[])
 {
+	if (rnac > 2) {printf("Usage: %s %s\n",rnav[0], rnav[1]); return 1;}
+	if (rnac < 2) {printf("Usage: %s ATGC\n",rnav[0]); return 1;}
 	if (rnac == 2)
 	{
-		string rna;
-		for (int c = 0; c < strlen(rnav[1]); c++)
+		int max = strlen(rnav[1]);
+		string dna = rnav[1];
+		string rna = dna;
+		for (int c = 0; c < max; c++)
 		{
-			if(rnav[1][c] != "A" || rnav[1][c] != "T" || rnav[1][c] != "G" || rnav[1][c] != "C")
+			dna[c] = toupper(rnav[1][c]);
+			if(dna[c] != 'A' && dna[c] != 'T' && dna[c] != 'G' && dna[c] != 'C')
 			{
 				rna = "Invalid DNA";
+				printf("%s\n", rna);
+				return 1;
 			}
 			else
 			{
-				string rna;
-				if (rnav[1][c] == "A") {printf("U");}
-				else  if (rnav[1][c] == "T") {printf("A");}
-				else if (rnav[1][c] == "G") {printf("C");}
-				else  if (rnav[1][c] == "C") {printf("G");}
+				if (dna[c] == 'A') {rna[c] = 'U';}
+				else if (dna[c] == 'T') {rna[c] = 'A';}
+				else if (dna[c] == 'G') {rna[c] = 'C';}
+				else if (dna[c] == 'C') {rna[c] = 'G';}
 			}
-//		if (rna == "Invalid") {printf("Invalid DNA");}
-//		else {Printf("%s\n", rna);}
 		}
+		printf("%s\n", rna);
 	}
 }
