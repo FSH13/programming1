@@ -1,4 +1,4 @@
-/*
+ /*
  * Implements Tiles (for a puzzle size of d x d)
  */
 
@@ -26,14 +26,13 @@ void init_board(void);
 bool move(int tile);
 bool is_won(void);
 
-//int board[DIM_MAX][DIM_MAX];
-//int d;
-
-int main(int argc, string argv[]) {
+int main(int argc, string argv[])
+{
     // Validate arguments, else stop program
     int error = validate_arguments(argc, argv);
-    if (error > 0) {
-      return error;
+    if (error > 0)
+    {
+        return error;
     }
 
     // Start logging for testing purposes
@@ -46,9 +45,10 @@ int main(int argc, string argv[]) {
     init_board();
 
     // Accept moves until game is won
-    while (true) {
-      // Clear the screen
-      clear_screen();
+    while (true)
+    {
+        // Clear the screen
+        clear_screen();
 
         // Draw the current state of the board
         draw_board();
@@ -57,26 +57,29 @@ int main(int argc, string argv[]) {
         log_board();
 
         // Check for win
-        if (is_won()) {
-	  printf("ftw!\n");
-	  break;
+        if (is_won())
+        {
+            printf("ftw!\n");
+            break;
         }
 
         // Prompt for move
         int tile = get_int("Tile to move: ");
 
         // Quit if user inputs 0(for testing)
-        if (tile == 0) {
-	  break;
+        if (tile == 0)
+        {
+            break;
         }
 
         // Log the requested move for testing purposes
         log_move(tile);
 
         // Move if possible, else report illegality
-        if (!move(tile)) {
-	  printf("\nIllegal move.\n");
-	  usleep(500000);
+        if (!move(tile))
+        {
+            printf("\nIllegal move.\n");
+            usleep(500000);
         }
 
         // Sleep thread for animation's sake
@@ -94,29 +97,33 @@ int main(int argc, string argv[]) {
 int validate_arguments(int argc, string argv[])
 {
     // Ensure proper usage
-    if (argc != 2) {
-      printf("Usage: tiles d\n");
-      return 1;
+    if (argc != 2)
+    {
+        printf("Usage: tiles d\n");
+        return 1;
     }
 
     // Ensure valid dimensions
     d = atoi(argv[1]);
-    if (d < DIM_MIN || d > DIM_MAX) {
-      printf("Board dimension d must be between %i x %i and %i x %i, inclusive.\n",
-	     DIM_MIN, DIM_MIN, DIM_MAX, DIM_MAX);
-      return 2;
+    if (d < DIM_MIN || d > DIM_MAX)
+    {
+        printf("Board dimension d must be between %i x %i and %i x %i, inclusive.\n",
+            DIM_MIN, DIM_MIN, DIM_MAX, DIM_MAX);
+        return 2;
     }
     return 0;
 }
 
 // Clears screen using ANSI escape sequences
-void clear_screen(void) {
+void clear_screen(void)
+{
     printf("\033[2J");
     printf("\033[%d;%dH", 0, 0);
 }
 
 // Greets player
-void greet_user(void) {
+void greet_user(void)
+{
     clear_screen();
     printf("WELCOME TO TILES\n");
     usleep(2000000);
@@ -124,52 +131,74 @@ void greet_user(void) {
 
 // Initializes the game 's board with tiles numbered 1 through d*d - 1
 //  (i.e., fills 2-D array with values but does not actually print them)
-void init_board(void) {
-  // todo
-  int tiles_numbers = d*d;
-  printf("tiles_numbers %i\n", tiles_numbers);
+void init_board(void)
+{
+    // TODO
+    int count = 0;
+    int c_tiles = d*d -1;
+    char letter = 'A';
+    while(count < c_tiles)
+    {
+	string tiles[c_tiles];
+	tiles[count] = letter;
+	letter = letter+32;
+    }
 }
 
 // Prints the board in its current state
-void draw_board(void) {
-  for (int i = 0; i < d; i++) {
-    for (int j = 0; j < d; j++) {
-      draw_tile(board[i][j]);
+void draw_board(void)
+{
+    for (int i = 0; i < d; i++)
+    {
+        for (int j = 0; j < d; j++)
+        {
+            draw_tile(board[i][j]);
+        }
+        printf("\n\n");
     }
-    printf("\n\n");
-  }
 }
 
 // Prints a single tile's number, or _ in case of empty tile
-void draw_tile(int value) {
-  if (value == 0) {
-    printf("  _  ");
-  } else {
-    printf("%3d  ", value);
+void draw_tile(int value)
+{
+    if (value == 0)
+    {
+        printf("  _  ");
+    }
+    else
+    {
+        printf("%3d  ", value);
     }
 }
 
 // If tile borders empty space, moves tile and returns true, else returns false
-bool move(int tile) {
-  // TODO
-  return false;
+bool move(int tile)
+{
+    // TODO
+    return false;
 }
 
 // Returns true if game is won (i.e., board is in winning configuration), else false
-bool is_won(void) {
-  int number = 1;
+bool is_won(void)
+{
+    int number = 1;
 
-  for (int i = 0; i < d; i++) {
-    for (int j = 0; j < d; j++) {
-      if (number == d * d && board[i][j] == 0) {
-	return true;
-      } else if (board[i][j] != number) {
-	return false;
-      }
-      number++;
+    for (int i = 0; i < d; i++)
+    {
+        for (int j = 0; j < d; j++)
+        {
+            if (number == d * d && board[i][j] == 0)
+            {
+                return true;
+            }
+            else if (board[i][j] != number)
+            {
+                return false;
+            }
+            number++;
+        }
     }
-  }
-
-  // if all else is correct, we should never reach this line
-  return false;
+    
+    // if all else is correct, we should never reach this line
+    return false;
 }

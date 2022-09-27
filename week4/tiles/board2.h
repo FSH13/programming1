@@ -1,4 +1,4 @@
-/*
+ /*
  * Data structure for the Tiles game
  */
 
@@ -7,7 +7,7 @@
 #define DIM_MAX 9
 
 // Board
-extern int board[DIM_MAX][DIM_MAX];
+int board[DIM_MAX][DIM_MAX];
 
 // Dimensions
-extern int d;
+int d;
