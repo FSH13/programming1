@@ -126,15 +126,13 @@ void greet_user(void) {
 //  (i.e., fills 2-D array with values but does not actually print them)
 void init_board(void) {
   // TODO
-  int row = 0;
-  int column = 0;
-  int tiles_numbers = d*d-1;
+  int tiles_numbers = d*d-1, column;
 
-  for ( row = 0; row < d; row++)
+  for (int row = 0; row < d; row++)
   {
     for (column = 0; column < d; column++)
     {
-	board[row][column] = tiles_numbers;
+	board[row][column]=tiles_numbers;
 	tiles_numbers--;
     }
     column = 0;
@@ -168,49 +166,12 @@ void draw_tile(int value) {
 // If tile borders empty space, moves tile and returns true, else returns false
 bool move(int tile) {
   // TODO
-  int row = 0;
-  int column = 0;
-
-  while (board[row][column] != tile && board[row][column] <= d*d-1)
-  {
-    row++;
-    column++;
-  }
-  int row_tile = row;
-  int column_tile = column;
-
-  row = 0;
-  column = 0;
-
-  while (board[row][column] != '-' && board[row][column] <= d*d-1)
-  {
-    row++;
-    column++;
-  }
-  int row_empty = row;
-  int column_empty = column;
-
-  if (row_tile - 1 == row_empty)
-  {
-    return true;
-  }
-  else if (row_tile +1 == row_empty)
-  {
-    return true;
-  }
-  else if (column_tile -1 == column_empty)
-  {
-    return true;
-  }
-  else if (column_tile +1 == column_empty)
-  {
-    return true;
-  }
-  else
-  {
-  printf("re: %i ce: %i rt: %i ct: %i\n", row_empty, column_empty, row_tile, column_tile);
+  loop over rijen
+    loop over kolommen
+     if row/column == tegel
+       if row/column == 0
+	if 
   return false;
-  }
 }
 
 // Returns true if game is won (i.e., board is in winning configuration), else false
