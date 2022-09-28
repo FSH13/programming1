@@ -176,8 +176,9 @@ bool move(int tile) {
     row++;
     column++;
   }
-  int row_tile = row;
-  int column_tile = column;
+//  int row_tile = row;
+//  int column_tile = column;
+  int location_tile[2] = row,column;
 
   row = 0;
   column = 0;
@@ -187,7 +188,8 @@ bool move(int tile) {
     row++;
     column++;
   }
-  int row_empty = row;
+  int location_empty[2] = row, column;
+/*  int row_empty = row;
   int column_empty = column;
 
   if (row_tile - 1 == row_empty)
@@ -205,10 +207,26 @@ bool move(int tile) {
   else if (column_tile +1 == column_empty)
   {
     return true;
+  }*/
+  if (location_empty[0]- 1 == location_empty[0])
+  {
+    return true;
+  }
+  else if (location_tile[0] +1 == location_empty[0])
+  {
+    return true;
+  }
+  else if (location_tile[1] -1 == location_empty[1])
+  {
+    return true;
+  }
+  else if (location_tile[1] +1 == location_empty[1])
+  {
+    return true;
   }
   else
   {
-  printf("re: %i ce: %i rt: %i ct: %i\n", row_empty, column_empty, row_tile, column_tile);
+//  printf("re: %i ce: %i rt: %i ct: %i\n", row_empty, column_empty, row_tile, column_tile);
   return false;
   }
 }
