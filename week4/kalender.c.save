@@ -1,0 +1,27 @@
+
+#include <cs50.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
+
+int main (void)
+{
+	int r = 0;
+	int c = 0;
+	int r_m = 6;
+	int c_m = 7;
+	int d = 0;
+	int d_m = 31;
+
+
+	for (r = 0; r < r_m; r++)
+	{
+		for (c = 0; c < c_m; c++)
+		{
+			printf("%3d ", d);
+			d++;
+		}
+		c = 0;
+		printf("\n");
+	}
+}

@@ -1,3 +1,4 @@
+
 //*****************************************
 /* Program to print a requested calendar.
 *  By: FSH
@@ -19,17 +20,18 @@
 
 int DAYS = 0;
 int PRINT_DAY = 1;
-int COUNT_YEAR = 1800;
+int COUNT_YEAR = 1797;
 int DAYS_MONTH = 30;
 
 void days_years(int year);
 void days_months(int month, int year);
-bool leap_year(int years);
+int leap_year(int years);
 int start_day(void);
 void draw_days(int row, int column);
 void max_days(int month, int year);
 
 void display_header(int month, int year);
+void init_grit(void);
 void draw_calendar(int value);
 void display_grid(int dag);
 void display_week(void);
@@ -46,8 +48,8 @@ int main (int argc, string argv[])
 		return 1;
 	}
 	// change the argv string to an month and year integer !!MOET HIER BIJ CIJFER CHECK?!!
-	int month = atoi(argv[2]);
-	int year = atoi(argv[1]);
+	int month = atoi(argv[1]);
+	int year = atoi(argv[2]);
 	//bereken het totaal aantal dagen van 1800 tot opgegeven datum
 	days_years(year);
 	days_months(month, year);
@@ -62,19 +64,20 @@ int main (int argc, string argv[])
 // bereken dagen van tussenliggende jaren rekening houdend met schrikkeljaren
 void days_years(int year)
 {
-	for (COUNT_YEAR = 1800; COUNT_YEAR < year; COUNT_YEAR++)
+	bool leap = leap_year(COUNT_YEAR);
+	for (COUNT_YEAR = 1797; COUNT_YEAR < year; COUNT_YEAR++)
 	{
-		bool leap = leap_year(COUNT_YEAR);
 		if(leap_year(COUNT_YEAR))
 		{
 			DAYS = DAYS + 366;
 //			printf("days: %i en jaren leapyear: %i\n", DAYS, COUNT_YEAR);
 		}
-		else
+		else if (leap == false)
 		{
 			DAYS = DAYS + 365;
 //			printf("days: %i en jaren: %i\n", DAYS, COUNT_YEAR);
 		}
+		else {  printf("hoipippoloi");}
 	}
 }
 
@@ -86,28 +89,19 @@ void days_months(int month, int year)
 		if(count_month == 1 || count_month == 3 || count_month == 5 || count_month == 7 || count_month == 8 || count_month == 10 || count_month == 12)
 		{
 			DAYS = DAYS + 31;
-//			printf("days: %i en 31month: %i\n", DAYS, count_month);
 		}
-		else if (count_month == 4 || count_month == 6 || count_month == 9 || count_month == 11)
+		else if (count_month == 2 || count_month == 4 || count_month == 6 || count_month == 9 || count_month == 11)
 		{
 			DAYS = DAYS + 30;
-//			printf("days: %i en 30month: %i\n", DAYS, count_month);
-		}
-		if (count_month == 2)
-		{
-			DAYS = DAYS + 28;
-			printf("year: %i maand: %i\n", year, month);
 		}
 
-		if (leap_year(year) && count_month == 2 )
-		{
-			DAYS = DAYS + 1;
-			printf("days: %i en schrikkelmonth: %i\n", DAYS, count_month);
+		if (leap_year(year) && count_month == 3 )
+		{ DAYS = DAYS + 1;
 		}
 	}
 }
 
-bool leap_year(int years)
+int leap_year(int years)
 {
 	//bereken of het huidig jaar een leap year is
 	if (years%400 == 0)
@@ -136,10 +130,22 @@ void display_header(int month, int year)
 int start_day(void)
 {
 	int dagen = DAYS;
-        dagen = (dagen+3)%7;
-
+        dagen = dagen%7;
+//	if (dagen > 7){dagen = dagen-7;}
+//	if (dagen > 4){
+//		while (dagen > 700){
+//			dagen = dagen - 700;
+//		}
+//		while (dagen > 70){
+//			dagen = dagen - 70;
+//		}
+//		while (dagen > 7){
+//			dagen = dagen -7;
+//		}
+//	}
+//	printf("dagen %i\n", dagen);
 	return dagen;
-//	printf("dagen: %i",dagen);
+	printf("dagen: %i",dagen);
 }
 
 // bereken hoeveel dagen de gekozen maand heeft
@@ -154,30 +160,43 @@ void max_days(int month, int year)
 		if (leap_year(year) == true)
 		{
 			DAYS_MONTH = 29;
-			printf("Test regel 158");
 		}
 		else {DAYS_MONTH = 28;}
-		printf("year: %i Days_month: %i\n", year, DAYS_MONTH);
 	}
 }
-
+void init_grit(void)
+{
+	int row = 0;
+	int column = 0;
+	int day = 1;
+	for ( row = 0; day < DAYS_MONTH; row++)
+	{
+		for (int days = 0; days < 7; days++)
+		{
+			printf("%3d ", day);
+			column++;
+			day++;
+		}
+		column = 0;
+		printf("\n");
+	}
+}
 void display_grid(int dag)
 {
 	int day = 1;
-	for (int row = 0; day <= DAYS_MONTH; row++)
+	for (int row = 0; day < DAYS_MONTH; row++)
 	{
 		for (int days = 0; days < 7; days++)
 		{
 			draw_calendar(day);
 			day++;
 		}
-		printf("\n");
+		printf("\n");// printf("day: %i\n", day);
 	}
 }
 
 void draw_calendar(int value)
 {
-//	printf("draw_calendar value: %i\n Start_day: %i\n", value, start_day());
 	if (value < start_day()){
 		printf("    ");
 	}
