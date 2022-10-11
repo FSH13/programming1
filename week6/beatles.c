@@ -1,13 +1,12 @@
-//***********************
-// Fleur Smit
-// The Beatles
-// name; instrument; born
-//***********************
+/*********************************************
+ * Fleur
+ * The Beatles
+ * prints name; instrument; born of each beatle
+**********************************************/
 
 #include <stdio.h>
 #include <cs50.h>
 #include <string.h>
-
 
 struct musician {
     string name[4];
@@ -19,8 +18,8 @@ void print_musician(struct musician m);
 
 int main()
 {
-    // Step 1: Create a 'john' variable
-	struct musician beatles; // = malloc(sizeof(struct musician));
+    // Step 1: Create a variable
+	struct musician beatles;
 
     // Step 2: Set the fields to the appropriate values
 	beatles.name[0] = "John";
@@ -36,12 +35,13 @@ int main()
         beatles.year_born[2] = 1943;
         beatles.year_born[3] = 1940;
 //	int test_array[] = {1940, 1942, 1943, 1940};
-//	beatles.year_born = test_array;
-    // Step 4: Call the print function on 'john'
+//	strcpy(beatles.year_born,test_array);
+
+    // Step 4: Call the print function on 'beatles'
 	print_musician(beatles);
 }
 
-// Step 3: create a print function
+// Step 3: create a print function print each member with his information
 void print_musician(struct musician m){
 	printf("The members of The Beatles are: \n");
 
