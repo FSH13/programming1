@@ -76,13 +76,12 @@ void reflect(int height, int width, RGBTRIPLE image[height][width])
 
     // loop over each pixel and swap with the opposing pixel the loop stops if we reach the middle
     for (int h = 0; h < height; h++){
-        rw = width;
-        for (int w = 0; w < rw; w++){
+        rw = width-1;
+        for (int w = 0; w <= rw; w++){
             temp = image[h][w];
             image[h][w] = image[h][rw];
             image[h][rw] = temp;
             rw--;
-            printf("h: %i, w: %i, rw: %i, Height: %i, Width: %i\n", h, w, rw, height, width);
         }
     }
     return;
@@ -93,9 +92,10 @@ void blur(int height, int width, RGBTRIPLE image[height][width])
 {
     // create rgbtriples for the surrounding pixels
     RGBTRIPLE ne, nn, nw, ww, ee, se, ss, sw;
+    int max_h = height - 1, max_w = width - 1;
     // loop over each pixel
-    for (int h = 0; h < height; h++){
-        for (int w = 0; w < width; w++){
+    for (int h = 0; h <= max_h; h++){
+        for (int w = 0; w <= max_w; w++){
              // take the average of the surrounding pixels depending on the location of the pixel
              // if it's in a corner of around the edge, there are less surrounding pixels
              if (h == 0){
@@ -107,7 +107,7 @@ void blur(int height, int width, RGBTRIPLE image[height][width])
                      image[h][w].rgbtGreen = round((ee.rgbtGreen + ss.rgbtGreen + se.rgbtGreen) / 3);
                      image[h][w].rgbtBlue = round((ee.rgbtBlue + ss.rgbtBlue + se.rgbtBlue) / 3);
                  }
-                 else if (w == width){
+                 else if (w == max_w){
                      sw = image[h+1][w-1];
                      ww = image[h][w-1];
                      ss = image[h+1][w];
@@ -126,7 +126,7 @@ void blur(int height, int width, RGBTRIPLE image[height][width])
                      image[h][w].rgbtBlue = round((ee.rgbtBlue + se.rgbtBlue + ss.rgbtBlue + sw.rgbtBlue + ww.rgbtBlue) / 5);
                  }
              }
-             else if (h == height){
+             else if (h == max_h){
                  if (w == 0){
                      nn = image[h-1][w];
                      ne = image[h-1][w+1];
@@ -135,7 +135,7 @@ void blur(int height, int width, RGBTRIPLE image[height][width])
                      image[h][w].rgbtGreen = round((nn.rgbtGreen + ne.rgbtGreen + ee.rgbtGreen) / 3);
                      image[h][w].rgbtBlue = round((nn.rgbtBlue + ne.rgbtBlue + ee.rgbtBlue) / 3);
                  }
-                 else if (w == width){
+                 else if (w == max_w){
                      ww = image[h][w-1];
                      nw = image[h-1][w-1];
                      nn = image[h-1][w];
@@ -166,7 +166,7 @@ void blur(int height, int width, RGBTRIPLE image[height][width])
                      image[h][w].rgbtGreen = round((nn.rgbtGreen + ne.rgbtGreen + ss.rgbtGreen + se.rgbtGreen + ee.rgbtGreen) / 5);
                      image[h][w].rgbtBlue = round((nn.rgbtBlue + ne.rgbtBlue + ss.rgbtBlue + se.rgbtBlue + ee.rgbtBlue) / 5);
                  }
-                 else if (w == width){
+                 else if (w == max_w){
                      sw = image[h+1][w-1];
                      ww = image[h][w-1];
                      ss = image[h+1][w];
