@@ -92,74 +92,45 @@ void reflect(int height, int width, RGBTRIPLE image[height][width])
 // Blur image
 void blur(int height, int width, RGBTRIPLE image[height][width])
 {
-    // create a copy of the image to retain the original pixels
-    int max_h = height - 1, max_w = width - 1;
-    RGBTRIPLE original_image[height][width];
-    for (int cr = 0; cr <= max_h; cr++){
-        for (int cw = 0; cw <= max_w; cw++){
-            original_image[cr][cw] = image[cr][cw];
+  RGBTRIPLE temp_image[height][width];
+
+  // loop over each row and column (pixel)
+  for (int h = 0; h < height; h++){
+    for (int w = 0; w < width; w++){
+      int c_red = 0;
+      int c_green = 0;
+      int c_blue = 0;
+      float count = 0.0;
+
+      // Loop over the row below and above and column to the sides of the pixel
+      // within the borders of the image
+      for (int i = h - 1; i <= h + 1; i++){
+        for (int j = w - 1; j <= w + 1; j++){
+
+          // Add up the total RGBvalue of the surrounding and original pixel
+          if (i >= 0 && i < height && j >= 0 && j < width){
+               c_red = c_red + image[i][j].rgbtRed;
+               c_green = c_green + image[i][j].rgbtGreen;
+               c_blue = c_blue + image[i][j].rgbtBlue;
+               count++;
+          }
         }
-    }
+      }
 
-    // loop over each pixel
-    for (int h = 0; h < height; h++){
-	for (int w = 0; w < width; w++){
-		// height is  0 aka bottom of the image
-		if (h == 0){
-			if (w == 0){
-				image[h][w].rgbtRed = round((original_image[h][w].rgbtRed + original_image[h+1][w].rgbtRed + original_image[h+1][w+1].rgbtRed + original_image[h][w+1].rgbtRed)/4.0);
-				image[h][w].rgbtGreen = round((original_image[h][w].rgbtGreen + original_image[h+1][w].rgbtGreen + original_image[h+1][w+1].rgbtGreen + original_image[h][w+1].rgbtGreen)/4.0);
-				image[h][w].rgbtBlue = round((original_image[h][w].rgbtBlue + original_image[h+1][w].rgbtBlue + original_image[+1][w+1].rgbtBlue + original_image[h][w+1].rgbtBlue) / 4.0);
-			}
-			else if (w == width-1){
-				image[h][w].rgbtRed = round((original_image[h][w].rgbtRed + original_image[h+1][w].rgbtRed + original_image[h+1][w-1].rgbtRed + original_image[h][w-1].rgbtRed) / 4.0);
-				image[h][w].rgbtGreen = round((original_image[h][w].rgbtGreen + original_image[h+1][w].rgbtGreen + original_image[h+1][w-1].rgbtGreen + original_image[h][w-1].rgbtGreen) / 4.0);
-				image[h][w].rgbtBlue = round((original_image[h][w].rgbtBlue + original_image[h+1][w].rgbtBlue + original_image[h+1][w-1].rgbtBlue + original_image[h][w-1].rgbtBlue) / 4.0);
-			}
-			else {
-				image[h][w].rgbtRed = round((original_image[h][w].rgbtRed + original_image[h][w+1].rgbtRed + original_image[h+1][w+1].rgbtRed + original_image[h+1][w].rgbtRed + original_image[h+1][w-1].rgbtRed + original_image[h][w-1].rgbtRed) / 6.0);
-				image[h][w].rgbtGreen = round((original_image[h][w].rgbtGreen + original_image[h][w+1].rgbtGreen + original_image[h+1][w+1].rgbtGreen + original_image[h+1][w].rgbtGreen + original_image[h+1][w-1].rgbtGreen + original_image[h][w-1].rgbtGreen) / 6.0);
-				image[h][w].rgbtBlue = round((original_image[h][w].rgbtBlue + original_image[h][w+1].rgbtBlue + original_image[h+1][w+1].rgbtBlue + original_image[h+1][w].rgbtBlue + original_image[h+1][w-1].rgbtBlue + original_image[h][w-1].rgbtBlue) / 6.0);
-			}
-		}
-
-		// max height aka top of the image
-		else if (h == height-1){
-			if (w == 0){
-				image[h][w].rgbtRed = round((original_image[h][w].rgbtRed + original_image[h][w+1].rgbtRed + original_image[h-1][w+1].rgbtRed + original_image[h-1][w].rgbtRed)/4.0);
-				image[h][w].rgbtGreen = round((original_image[h][w].rgbtGreen + original_image[h][w+1].rgbtGreen + original_image[h-1][w+1].rgbtGreen + original_image[h-1][w].rgbtGreen)/4.0);
-				image[h][w].rgbtBlue = round((original_image[h][w].rgbtBlue + original_image[h][w+1].rgbtBlue + original_image[h-1][w+1].rgbtBlue + original_image[h-1][w].rgbtBlue) / 4.0);
-			}
-			else if (w == width-1){
-				image[h][w].rgbtRed = round((original_image[h][w].rgbtRed + original_image[h][w-1].rgbtRed + original_image[h-1][w-1].rgbtRed + original_image[h][w-1].rgbtRed)/4.0);
-				image[h][w].rgbtGreen = round((original_image[h][w].rgbtGreen + original_image[h][w-1].rgbtGreen + original_image[h-1][w-1].rgbtGreen + original_image[h][w-1].rgbtGreen)/4.0);
-				image[h][w].rgbtBlue = round((original_image[h][w].rgbtBlue + original_image[h][w-1].rgbtBlue + original_image[h-1][w-1].rgbtBlue + original_image[h][w-1].rgbtBlue) / 4.0);
-			}
-			else {
-				image[h][w].rgbtRed = round((original_image[h][w].rgbtRed + original_image[h][w+1].rgbtRed + original_image[h-1][w+1].rgbtRed + original_image[h-1][w].rgbtRed + original_image[h-1][w-1].rgbtRed + original_image[h][w-1].rgbtRed) / 6.0);
-				image[h][w].rgbtGreen = round((original_image[h][w].rgbtGreen + original_image[h][w+1].rgbtGreen + original_image[h-1][w+1].rgbtGreen + original_image[h-1][w].rgbtGreen + original_image[h-1][w-1].rgbtGreen + original_image[h][w-1].rgbtGreen) / 6.0);
-				image[h][w].rgbtBlue = round((original_image[h][w].rgbtBlue + original_image[h][w+1].rgbtBlue + original_image[h-1][w+1].rgbtBlue + original_image[h-1][w].rgbtBlue + original_image[h-1][w-1].rgbtBlue + original_image[h][w-1].rgbtBlue) / 6.0);
-			}
-		}
-		// Height is neither 0 nor max
-		else {
-			if (w == 0){
-				image[h][w].rgbtRed = round((original_image[h][w].rgbtRed + original_image[h+1][w].rgbtRed + original_image[h+1][w+1].rgbtRed + original_image[h][w+1].rgbtRed + original_image[h-1][w+1].rgbtRed + original_image[h-1][w].rgbtRed)/6.0);
-				image[h][w].rgbtGreen = round((original_image[h][w].rgbtGreen + original_image[h+1][w].rgbtGreen + original_image[h+1][w+1].rgbtGreen + original_image[h][w+1].rgbtGreen + original_image[h-1][w+1].rgbtGreen + original_image[h-1][w].rgbtGreen)/ 6.0);
-				image[h][w].rgbtBlue = round((original_image[h][w].rgbtBlue + original_image[h+1][w].rgbtBlue + original_image[h+1][w+1].rgbtBlue + original_image[h][w+1].rgbtBlue + original_image[h-1][w+1].rgbtBlue + original_image[h-1][w].rgbtBlue)/ 6.0);
-			}
-			else if (w == width-1){
-				image[h][w].rgbtRed = round((original_image[h][w].rgbtRed + original_image[h+1][w].rgbtRed + original_image[h+1][w-1].rgbtRed + original_image[h][w-1].rgbtRed + original_image[h-1][w-1].rgbtRed + original_image[h-1][w].rgbtRed) / 6.0);
-				image[h][w].rgbtGreen = round((original_image[h][w].rgbtGreen + original_image[h+1][w].rgbtGreen + original_image[h+1][w-1].rgbtGreen + original_image[h][w-1].rgbtGreen + original_image[h-1][w-1].rgbtGreen + original_image[h-1][w].rgbtGreen) / 6.0);
-				image[h][w].rgbtBlue = round((original_image[h][w].rgbtBlue + original_image[h+1][w].rgbtBlue + original_image[h+1][w-1].rgbtBlue + original_image[h][w-1].rgbtBlue + original_image[h-1][w-1].rgbtBlue + original_image[h-1][w].rgbtBlue) / 6.0);
-			}
-			else {
-				image[h][w].rgbtRed = round((original_image[h][w].rgbtRed + original_image[h][w-1].rgbtRed + original_image[h-1][w-1].rgbtRed + original_image[h-1][w].rgbtRed + original_image[h-1][w+1].rgbtRed + original_image[h][w+1].rgbtRed + original_image[h+1][w+1].rgbtRed + original_image[h+1][w].rgbtRed + original_image[h+1][w-1].rgbtRed) / 9.0);
-				image[h][w].rgbtGreen = round((original_image[h][w].rgbtGreen + original_image[h][w-1].rgbtGreen + original_image[h-1][w-1].rgbtGreen + original_image[h-1][w].rgbtGreen + original_image[h-1][w+1].rgbtGreen + original_image[h][w+1].rgbtGreen + original_image[h+1][w+1].rgbtGreen + original_image[h+1][w].rgbtGreen + original_image[h+1][w-1].rgbtGreen) / 9.0);
-				image[h][w].rgbtBlue = round((original_image[h][w].rgbtBlue + original_image[h][w-1].rgbtBlue + original_image[h-1][w-1].rgbtBlue + original_image[h-1][w].rgbtBlue + original_image[h-1][w+1].rgbtBlue + original_image[h][w+1].rgbtBlue + original_image[h+1][w+1].rgbtBlue + original_image[h+1][w].rgbtBlue + original_image[h+1][w-1].rgbtBlue) / 9.0);
-			}
-		}
-	}
+    // add the new blurred value to the temporary image location
+      temp_image[h][w].rgbtRed = round(c_red / count);
+      temp_image[h][w].rgbtGreen = round(c_green / count);
+      temp_image[h][w].rgbtBlue = round(c_blue / count);
     }
-    return;
+  }
+
+  // copy the values from the temp image to the original
+  for (int h = 0; h < height; h++){
+    for (int w = 0; w < width; w++){
+      image[h][w].rgbtRed = temp_image[h][w].rgbtRed;
+      image[h][w].rgbtGreen = temp_image[h][w].rgbtGreen;
+      image[h][w].rgbtBlue = temp_image[h][w].rgbtBlue;
+    }
+  }
+  return;
 }
