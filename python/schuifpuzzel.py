@@ -1,3 +1,9 @@
+#from cs50 import get_int
+
+width = 0
+#while width < 3 or width > 8:
+while width in [0, 8]:
+	width = int(input ("geef de gewenste breedte: "))
 
 def is_won(board):
     """
@@ -18,12 +24,41 @@ def print_board(board):
     voorbeelden onderaan de opdracht.
     """
 
+value = width * width - 1
+i = 0
+j = 0
+row = ""
+for i in range (width):
+	for j in range (width):
+		row = row + "   " + str(value)
+		value -= 1
+		j += 1
+	print (row)
+	row = ""
+	i += 1
+	j = 0
+
 def create_board():
     """
     Initialiseert en returnt een bord van formaat 4 x 4.
     Sorteert de nummers op aflopende volgorde van links boven naar rechts beneden.
     De volgorde van de tegels 1 en 2 is verwisseld.
     """
+
+value = width * width - 1
+i = 0
+j = 0
+row = ""
+for i in range (width):
+        for j in range (width):
+                row = row + "   " + str(value)
+                value -= 1
+                j += 1
+        print (row)
+        row = ""
+        i += 1
+        j = 0
+
 
 if __name__ == '__main__':
     print("Welkom bij de schuifpuzzel!")

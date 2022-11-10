@@ -13,14 +13,9 @@ score = 0.0
 #0,0588 * L - 0,296 * S - 15,8
 
 for count in range(karakters):
-	if tekst[count] == ".":
+	if tekst[count] == "." or tekst[count] == "!" or tekst[count] == "?":
 		zinnen += 1
-	elif tekst[count] == "!":
-		zinnen += 1
-	elif tekst[count] == "?":
-                zinnen += 1
-
-	if tekst[count] == " ":
+	elif tekst[count] == " ":
 		woorden += 1
 	count += 1
 
@@ -32,12 +27,12 @@ if tekst[len(tekst)-1] != "." and tekst[len(tekst)-1] != "!" and tekst[len(tekst
 
 l = (karakters / woorden) * 100.0
 s = (zinnen / woorden) * 100.0
-print (tekst[len(tekst)-1])
+
 print (karakters)
 print (woorden)
 print (zinnen)
 print (l)
 print (s)
-score = (0.0588 * l) -( 0.296 * s) - 15.8
-result = round(score)
-print(result)
+
+score = round((0.0588 * l) -( 0.296 * s) - 15.8)
+print (score)
